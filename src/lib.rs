@@ -1,6 +1,5 @@
 use actix_web::dev::Server;
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
-use std::fmt::Error;
 use std::io::Result;
 use std::net::TcpListener;
 
