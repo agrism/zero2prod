@@ -31,5 +31,5 @@ cargo run
 
 ### routes
 ```bash
-curl -v http://127.0.0.1:8000/healt_check
+curl -v http://127.0.0.1:8000/health_check
 ```
