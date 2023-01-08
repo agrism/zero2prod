@@ -5,8 +5,8 @@ async fn greet(req: HttpRequest) -> impl Responder {
     format!("Hello {}!", &name)
 }
 
-async fn health_check(_req: HttpRequest) -> impl Responder {
-    HttpResponse::Ok()
+async fn health_check() -> HttpResponse {
+    HttpResponse::Ok().finish()
 }
 
 #[tokio::main]
@@ -27,4 +27,16 @@ async fn main() -> std::io::Result<()> {
     //     .build()
     //     .expected("Failed building the Runtime")
     //     .block_on(body)
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::health_check;
+
+    #[tokio::test]
+    async fn health_check_succeeds(){
+        let response = health_check().await;
+
+        assert!(response.status().is_success())
+    }
 }
