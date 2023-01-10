@@ -1,3 +1,11 @@
+
+### Set up PG
+```bash
+ ./scripts/init_db.sh  
+ # or
+ SKIP_DOCKER=true ./scripts/init_db.sh 
+```
+
 ### Commands
 
 ```bash
