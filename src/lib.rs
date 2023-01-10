@@ -1,5 +1,5 @@
 use actix_web::dev::Server;
-use actix_web::{web, App, FromRequest, HttpRequest, HttpResponse, HttpServer, Responder};
+use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use std::io::Result;
 use std::net::TcpListener;
 
@@ -12,6 +12,7 @@ async fn health_check() -> HttpResponse {
     HttpResponse::Ok().finish()
 }
 
+#[allow(dead_code)]
 #[derive(serde::Deserialize)]
 struct FormData {
     email: String,
