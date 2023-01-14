@@ -16,16 +16,21 @@ config = "0.11.0"
 actix-web = "4.2.1"
 tokio = { version = "1.24.1", features = ["macros", "rt-multi-thread"]}
 serde = { version = "1.0", features = ["derive"]}
+uuid = { version = "0.8.1", features = ["v4"]}
+chrono = "0.4.15"
+rand = "0.8.2"
 
 [dependencies.sqlx]
-version = "0.5.7"
+version = "0.5.1"
 default-features = false
 features = [
     "runtime-actix-rustls",
     "macros",
     "postgres",
     "chrono",
-    "migrate"
+    "migrate",
+    "uuid",
+    "offline"
 ]
 
 [dev-dependencies]
