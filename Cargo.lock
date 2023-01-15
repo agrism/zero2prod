@@ -2441,6 +2441,7 @@ dependencies = [
  "chrono",
  "config",
  "env_logger",
+ "log",
  "rand",
  "reqwest",
  "serde 1.0.152",
