@@ -21,6 +21,7 @@ chrono = "0.4.15"
 rand = "0.8.2"
 env_logger = "0.9"
 log = "0.4"
+tracing = { verson = "0.1", features = ["log"] }
 
 [dependencies.sqlx]
 version = "0.5.1"
