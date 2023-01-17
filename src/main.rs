@@ -1,12 +1,12 @@
 use sqlx::PgPool;
 use std::io::Result;
 use std::net::TcpListener;
-use zero2prod::configuration::get_configuration;
-use zero2prod::startup::run;
 use tracing::subscriber::set_global_default;
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
-use tracing_subscriber::{layer::SubscriberExt, EnvFilter, Registry};
 use tracing_log::LogTracer;
+use tracing_subscriber::{layer::SubscriberExt, EnvFilter, Registry};
+use zero2prod::configuration::get_configuration;
+use zero2prod::startup::run;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -21,13 +21,12 @@ async fn main() -> Result<()> {
     // if the RUST_LOG environment variable has not been set.
     LogTracer::init().expect("Failed to set logger");
 
-    let env_filter = EnvFilter::try_from_default_env()
-        .unwrap_or_else(|_| EnvFilter::new("info"));
+    let env_filter = EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info"));
 
     let formatting_layer = BunyanFormattingLayer::new(
         "zero2prod".into(),
         // Output the formatted spans to stdout.
-        std::io::stdout
+        std::io::stdout,
     );
     // The `with` method is provided by `SubscriberExt`, an extension
     // trait for `Subscriber` exposed by `tracing_subscriber`
