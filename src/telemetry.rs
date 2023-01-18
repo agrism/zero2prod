@@ -1,4 +1,3 @@
-use std::io::{Sink};
 use tracing::subscriber::set_global_default;
 use tracing::Subscriber;
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
@@ -15,7 +14,7 @@ use tracing_subscriber::{layer::SubscriberExt, EnvFilter, Registry};
 /// We need to explicitly call out that the returned subscriber is
 /// `Send` and `Sync` to make it possible to pass  it to `init_subscriber`
 /// later on.
-pub fn get_subscriber(
+pub fn get_subscriber<Sink>(
     name: String,
     env_filter: String,
     sink: Sink,
@@ -25,7 +24,7 @@ where
     // It basically means that Sink implements the `MakeWriter`
     // trait for all choices of the lifetime parameter `'a`
     // Check out https:://doc.rust-lang.org/nomicon/hrtb.html
-    // for more detailsl
+    // for more details
     Sink: for<'a> MakeWriter<'a> + Send + Sync + 'static,
 {
     let env_filter =
