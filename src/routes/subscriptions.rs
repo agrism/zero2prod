@@ -44,7 +44,7 @@ pub async fn subscribe(
         INSERT INTO subscriptions (id, email, name, subscribed_at)
         VALUES ($1, $2, $3, $4);
         "#,
-        Uuid::new_v4(),
+        sqlx::types::Uuid::new_v4(),
         form.email,
         form.name,
         Utc::now()
