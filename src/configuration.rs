@@ -52,14 +52,18 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         .add_source(
             // config::File::new("configuration/base.yaml", config::FileFormat::Yaml).required(true),
             config::File::new(
-                String::from(configuration_directory.join("base").to_string_lossy()),
+                &configuration_directory.join("base").display().to_string(),
                 config::FileFormat::Yaml,
             )
             .required(true),
         )
         .add_source(
             config::File::new(
-                configuration_directory.join(environment.as_str()).to_str(),
+                &configuration_directory
+                    .join(environment.as_str())
+                    .as_path()
+                    .display()
+                    .to_string(),
                 config::FileFormat::Yaml,
             )
             .required(true),
