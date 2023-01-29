@@ -18,7 +18,7 @@ pub fn run(listener: TcpListener, connection_pool: PgPool) -> Result<Server> {
             .wrap(TracingLogger::default())
             .route("/", web::get().to(greet))
             .route("/health_check", web::get().to(health_check))
-            .route("/{name}", web::get().to(greet))
+            // .route("/{name}", web::get().to(greet))
             .route("/subscriptions", web::post().to(subscribe))
             .app_data(connection_pool.clone())
     })
