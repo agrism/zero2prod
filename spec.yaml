@@ -47,7 +47,7 @@ services:
         scope: RUN_TIME
         value: ${newsletter.HOSTNAME
       - key: APP_DATABASE__DATABASE_NAME
-        scope: RUNT_TIME
+        scope: RUN_TIME
         value: ${newsletter.DATABASE}
 databases:
   # PG = Postgres
