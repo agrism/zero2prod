@@ -48,7 +48,8 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         .try_into()
         .expect("Failed to parse APP_ENVIRONMENT");
 
-    let settings = config::Config::builder()
+    let builder = config::Config::builder()
+        // Add from file
         .add_source(
             // config::File::new("configuration/base.yaml", config::FileFormat::Yaml).required(true),
             config::File::new(
@@ -57,6 +58,7 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
             )
             .required(true),
         )
+        // Add from env
         .add_source(
             config::File::new(
                 &configuration_directory
@@ -68,11 +70,15 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
             )
             .required(true),
         )
-        // Layer on the environment-specific values.
-        .set_override("APP_ENVIRONMENT", environment.as_str())?
-        .build()
-        .unwrap();
+        // Generate  from environment to use in cloud env
+        .add_source(config::Environment::with_prefix("app").separator("__"));
+    // Layer on the environment-specific values.
+    // .set_override("APP_ENVIRONMENT", environment.as_str());
 
+    // build configuration
+    let settings = builder.build().expect("Could not load configuration.");
+
+    // Return the parsed type
     settings.try_deserialize::<Settings>()
 }
 
