@@ -63,6 +63,5 @@ doctl apps update uuid-of-apps-taken-from-previous-command-output --spec=spec.ya
 ##### copy database connection string from do admin
 ![digital ocean admin preview](readme_do_admin_preview.png)
 ```bash
-
-DATABASE_URL=postgresql://newsletter:AVNS_2J7tWPWTiT0dTLtsfD-@app-f4518f9b-1cdd-478c-bad8-2adce781e1ac-do-user-2157021-0.b.db.ondigitalocean.com:25060/newsletter?sslmode=require sqlx migrate run 
+DATABASE_URL=postgresql://newsletter:AVNS_XXXXXXXXXXXXXXXXXX-@XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-do-user-2157021-0.b.db.ondigitalocean.com:25060/newsletter?sslmode=require sqlx migrate run 
 ```
