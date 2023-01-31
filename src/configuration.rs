@@ -78,7 +78,11 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
             .required(true),
         )
         // Generate  from environment to use in cloud env
-        .add_source(config::Environment::with_prefix("app").prefix_separator("_").separator("__"));
+        .add_source(
+            config::Environment::with_prefix("app")
+                .prefix_separator("_")
+                .separator("__"),
+        );
     // Layer on the environment-specific values.
     // .set_override("APP_ENVIRONMENT", environment.as_str());
 
