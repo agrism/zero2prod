@@ -115,8 +115,7 @@ impl TryFrom<String> for Environment {
             "local" => Ok(Self::Local),
             "production" => Ok(Self::Production),
             other => Err(format!(
-                "{} is not a suppoerted environment. Use either `local` or `production`.",
-                other
+                "{other} is not a suppoerted environment. Use either `local` or `production`."
             )),
         }
     }
