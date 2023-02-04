@@ -1,3 +1,4 @@
+use crate::domain::{NewSubscriber, SubscriberName};
 use actix_web::{web, HttpResponse};
 use sqlx::PgPool;
 use unicode_segmentation::UnicodeSegmentation;
@@ -17,34 +18,17 @@ pub struct FormData {
         subscriber_name = %form.name
     )
 )]
-
 pub async fn subscribe(
     form: web::Form<FormData>,
     // Retrieving a connection from the application state
     pool: web::Data<PgPool>,
 ) -> HttpResponse {
-    if !is_valid_name(&form.name) {
-        return HttpResponse::BadRequest().finish();
-    }
-    // let request_id = Uuid::new_v4();
-    // Spans, like logs, have an associated level
-    // `info_span` creates a span at the info-level
-    // let request_span = tracing::info_span!("Saving new subscriber details in the database",);
+    let new_subscriber = NewSubscriber {
+        email: form.0.email,
+        name: SubscriberName::parse(form.0.name),
+    };
 
-    // Using `enter` in an async function is a recipe for disaster!
-    // Bear with me for now, but don't fo this at home.
-    // See the following section on `Instrumenting Futures`
-    // let _request_span_guard = request_span.enter();
-    // `_request_span_guard` is dropped at the end of `subscribe`
-    // That's when we "exit" the span
-
-    // We do not call `.enter` on query_span!
-    // `.instrument` takes care of it at the right moments
-    // in the query future lifetime
-
-    // let query_span = tracing::info_span!("Saving new subscriber details in the database");
-
-    match insert_subscriber(&pool, &form).await {
+    match insert_subscriber(&pool, &new_subscriber).await {
         Ok(_) => HttpResponse::Ok().finish(),
         Err(_) => HttpResponse::InternalServerError().finish(),
     }
@@ -52,18 +36,21 @@ pub async fn subscribe(
 
 #[tracing::instrument(
     name = "Saving new subscriber details in the database",
-    skip(form, pool)
+    skip(new_subscriber, pool)
 )]
-
-pub async fn insert_subscriber(pool: &PgPool, form: &FormData) -> Result<(), sqlx::Error> {
+pub async fn insert_subscriber(
+    pool: &PgPool,
+    new_subscriber: &NewSubscriber,
+) -> Result<(), sqlx::Error> {
     sqlx::query!(
         r#"
         INSERT INTO subscriptions (id, email, name, subscribed_at)
         VALUES ($1, $2, $3, $4)
         "#,
         sqlx::types::Uuid::new_v4(),
-        form.email,
-        form.name,
+        new_subscriber.email,
+        // Using `inner_ref`!
+        new_subscriber.name.inner_ref(),
         chrono::Utc::now()
     )
     .execute(pool)
