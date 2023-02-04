@@ -151,7 +151,7 @@ async fn subscribe_returns_a_400_when_data_is_missing() {
 }
 
 #[tokio::test]
-async fn subscribe_returns_a_400_when_fields_are_present_byt_empty() {
+async fn subscribe_returns_a_400_when_fields_are_present_but_empty() {
     // Arrange
     let app = spawn_app().await;
     let client = reqwest::Client::new();
@@ -180,3 +180,9 @@ async fn subscribe_returns_a_400_when_fields_are_present_byt_empty() {
         );
     }
 }
+
+// #[test]
+// fn dummy_fail(){
+//     let result: Result<&str, &str> = Err("The app crashed due to an IO error");
+//     claims::assert_ok!(result);
+// }
