@@ -6,7 +6,7 @@ impl SubscriberName {
     /// Returns an instance of `SubscriberName` if the input satisfies all
     /// our validation constraints on subscriber names.
     /// It panic otherwise.
-    pub fn parse(s: String) -> SubscriberName {
+    pub fn parse(s: String) -> Result<SubscriberName, String> {
         let is_empty_or_whitespaces = s.trim().is_empty();
 
         // A graph is defined by the Unicode standard as a "user-perceived"
@@ -26,7 +26,7 @@ impl SubscriberName {
         if is_empty_or_whitespaces || is_too_long || contains_forbidden_characters {
             panic!("{} is not a valid subscriber name.", s)
         } else {
-            Self(s)
+            Ok(Self(s))
         }
     }
 
@@ -49,6 +49,12 @@ impl SubscriberName {
         // The caller gets a shared reference to the inner string.
         // This gives the caller **rea-only** access,
         // they have no way to compromise our invariants!
+        &self.0
+    }
+}
+
+impl AsRef<str> for SubscriberName {
+    fn as_ref(&self) -> &str {
         &self.0
     }
 }
